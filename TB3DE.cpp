@@ -7,6 +7,8 @@
 #include <vector>
 using namespace std;
 
+const double INF = 9999999; // used to represent depth of empty space
+
 struct engineSettings
 {
 	// font size
@@ -601,20 +603,36 @@ int main()
 			 vert{.3,-.25,.25},
 			 vert{.5,.25,0},
 			 'l'});
+		// left flank
+		tris.push_back(
+			{vert{.9,.25,-.25},
+			 vert{.9,.25,.25},
+			 vert{.9,-.25,0},
+			 '~'});
 	}
 	
+	/* plane equation test
+	tris.push_back(
+		{vert{1,0,2},
+		 vert{-1,1,2},
+		 vert{5,0,3},
+		 '*'});
+	*/
+		
 	double angle = .05;
 	
 	// loop for each frame
 	while(1<2)
 	{
-		// init frame
+		// init frame and depth buffer
 		char frame [eng.resW][eng.resH];
+		double depth [eng.resW][eng.resH];
 		for(int h = eng.resH-1; h >= 0; h--)
 		{
 			for(int w = 0; w <= eng.resW-1; w++)
 			{
 				frame[w][h] = ' ';
+				depth[w][h] = -INF;
 			}
 		}
 		
@@ -666,9 +684,21 @@ int main()
 		{
 			// pull out the tri we will render
 			tri t = tris.at(i);
+			
+			// find normal vector to plane
+			double v1x = t.b.x - t.a.x;
+			double v1y = t.b.y - t.a.y;
+			double v1z = t.b.z - t.a.z;
+			double v2x = t.c.x - t.a.x;
+			double v2y = t.c.y - t.a.y;
+			double v2z = t.c.z - t.a.z;
+			double nx = v1y*v2z - v1z*v2y;
+			double ny = v1z*v2x - v1x*v2z;
+			double nz = v1x*v2y - v1y*v2x;			
 				
-			// init triRender
+			// init triRender and triDepth
 			char triRender [eng.resW][eng.resH];
+			double triDepth [eng.resW][eng.resH];
 			for(int h = eng.resH-1; h >= 0; h--)
 			{
 				for(int w = 0; w <= eng.resW-1; w++)
@@ -676,6 +706,10 @@ int main()
 					triRender[w][h] = t.fill;
 					// TEMP: sudo-random fill
 					//triRender[w][h] = (tris.at(i).a.y+1)/2*40+30;
+					
+					double loopX = (double)w/(eng.resW-1)*eng.windowW-(eng.windowW/2.0);
+					double loopY = (double)h/(eng.resH-1)*eng.windowH-(eng.windowH/2.0);
+					triDepth[w][h] = (nx*(loopX - t.a.x) + ny*(loopY - t.a.y))/(-nz) + t.a.z;
 				}
 			}
 			
@@ -776,8 +810,12 @@ int main()
 			{
 				for(int w = 0; w <= eng.resW-1; w++)
 				{
-					if (triRender[w][h] != ' ')
-					frame[w][h] = triRender[w][h];
+					if (triRender[w][h] != ' ' // if the tri exists here and
+						&& triDepth[w][h] > depth[w][h]) // it is in front of whatever is already there
+					{
+						frame[w][h] = triRender[w][h];
+						depth[w][h] = triDepth[w][h];
+					}
 				}
 			}	
 		}
