@@ -583,14 +583,14 @@ int main()
 	{
 		// front to back
 		tris.push_back(
-			{vert{-.7,-.25,.01},
-			 vert{-.3,-.25,.01},
-			 vert{-.5,.25,.01},
+			{vert{-.7,-.25,.1},
+			 vert{-.3,-.25,.1},
+			 vert{-.5,.25,.1},
 			 'F'});
 		tris.push_back(
-			{vert{-.7,-.25,-.01},
-			 vert{-.3,-.25,-.01},
-			 vert{-.5,.25,-.01},
+			{vert{-.7,-.25,-.1},
+			 vert{-.3,-.25,-.1},
+			 vert{-.5,.25,-.1},
 			 '.'});
 		// cross over
 		tris.push_back(
@@ -603,11 +603,11 @@ int main()
 			 vert{.3,-.25,.25},
 			 vert{.5,.25,0},
 			 'l'});
-		// left flank
+		// right flank
 		tris.push_back(
-			{vert{.9,.25,-.25},
-			 vert{.9,.25,.25},
-			 vert{.9,-.25,0},
+			{vert{.9,-.25,-.25},
+			 vert{.9,-.25,.25},
+			 vert{.9,.25,0},
 			 '~'});
 	}
 	
