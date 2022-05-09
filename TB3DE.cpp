@@ -577,6 +577,32 @@ int main()
 	}
 	*/
 	
+	// depth buffer test
+	{
+		// front to back
+		tris.push_back(
+			{vert{-.7,-.25,.01},
+			 vert{-.3,-.25,.01},
+			 vert{-.5,.25,.01},
+			 'F'});
+		tris.push_back(
+			{vert{-.7,-.25,-.01},
+			 vert{-.3,-.25,-.01},
+			 vert{-.5,.25,-.01},
+			 '.'});
+		// cross over
+		tris.push_back(
+			{vert{.7,-.25,.25},
+			 vert{.3,-.25,-.25},
+			 vert{.5,.25,0},
+			 'R'});
+		tris.push_back(
+			{vert{.7,-.25,-.25},
+			 vert{.3,-.25,.25},
+			 vert{.5,.25,0},
+			 'l'});
+	}
+	
 	double angle = .05;
 	
 	// loop for each frame
@@ -598,7 +624,7 @@ int main()
 			// pull out the tri we will rotate
 			tri t = tris.at(i);
 			
-			// rotate tri xy plane
+			/* rotate tri xy plane
 			double newX = t.a.x*cos(angle) - t.a.y*sin(angle);
 			double newY = t.a.x*sin(angle) + t.a.y*cos(angle);
 			t.a.x = newX;
@@ -613,9 +639,10 @@ int main()
 			newY = t.c.x*sin(angle) + t.c.y*cos(angle);
 			t.c.x = newX;
 			t.c.y = newY;
+			*/
 			
 			// rotate tri xz plane
-			newX = t.a.x*cos(angle) - t.a.z*sin(angle);
+			double newX = t.a.x*cos(angle) - t.a.z*sin(angle);
 			double newZ = t.a.x*sin(angle) + t.a.z*cos(angle);
 			t.a.x = newX;
 			t.a.z = newZ;
