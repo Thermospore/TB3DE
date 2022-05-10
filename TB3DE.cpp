@@ -51,7 +51,7 @@ int main()
 	
 	vector<tri> tris;
 	
-	/* og test
+	/*// og test
 	tris.push_back(
 		{vert{-.45,-.22,.46},
 		 vert{-.15,-.46,.16},
@@ -71,10 +71,9 @@ int main()
 		{vert{.3,-.3,0},
 		 vert{.3,-.5,0},
 		 vert{.4,-.3,-.4},
-		 ';'});
-	*/
+		 ';'});/**/
 	
-	/* 100 randos
+	/*// 100 randos
 	tris.push_back(
 		{vert{-0.01,-0.04,-0.53},
 		vert{-0.97,0.49,0.71},
@@ -574,10 +573,9 @@ int main()
 		{vert{0.22,0.47,0.23},
 		vert{-0.11,0.40,-0.82},
 		vert{-0.10,-0.37,0.51},
-		'.'});
-	*/
+		'.'});/**/
 	
-	/* depth buffer test
+	/*// depth buffer test
 	// front to back
 	tris.push_back(
 		{vert{-.7,-.25,.1},
@@ -605,38 +603,36 @@ int main()
 		{vert{.9,-.25,-.25},
 		 vert{.9,-.25,.25},
 		 vert{.9,.25,0},
-		 '~'});
-	*/
+		 '~'});/**/
 	
-	/* plane equation test
+	/*// plane equation test
 	tris.push_back(
 		{vert{1,0,2},
 		 vert{-1,1,2},
 		 vert{5,0,3},
-		 '*'});
-	*/
+		 '*'});/**/
 	
 	// z-fight
 	tris.push_back(
-		{vert{-.5,0,-.5},
-		 vert{0,0,.4},
-		 vert{-.6,0,.5},
-		 '_'});
-	tris.push_back(
-		{vert{.5001,0,-.5},
-		 vert{0,0,.25},
-		 vert{-.6,0,.25},
-		 '|'});
-	tris.push_back(
-		{vert{.5,-.5,-.5},
-		 vert{.5,0,.4},
-		 vert{.5,-.6,.5},
+		{vert{-.5,-.25,0},
+		 vert{-.5,.25,0},
+		 vert{.5,-.25,0},
 		 '.'});
 	tris.push_back(
-		{vert{.5,.5001,-.5},
-		 vert{.5,0,.25},
-		 vert{.5,-.6,.25},
+		{vert{.5,-.25,0},
+		 vert{.5,.25,0},
+		 vert{-.5,.25,0},
+		 '.'});
+	tris.push_back(
+		{vert{-.25,-.5,0},
+		 vert{.25,-.5,0},
+		 vert{-.25,.5,0},
 		 '%'});
+	tris.push_back(
+		{vert{-.25,.5,0},
+		 vert{.25,.5,0},
+		 vert{.25,-.5,0},
+		 '%'});/**/
 	
 	double angle = .05;
 	
