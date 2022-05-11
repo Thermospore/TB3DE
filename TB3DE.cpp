@@ -45,7 +45,7 @@ struct tri
 int main()
 {
 	engineSettings eng;
-	eng.d = 2;
+	eng.d = 1.5;
 	eng.fontW = 8;
 	eng.fontH = 16;
 	eng.resW = 120;
@@ -579,7 +579,7 @@ int main()
 		vert{-0.10,-0.37,0.51},
 		'.'});/**/
 	
-	// depth buffer test
+	/*// depth buffer test
 	// front to back
 	tris.push_back(
 		{vert{-.7,-.25,.1},
@@ -638,6 +638,648 @@ int main()
 		 vert{.25,-.5,0},
 		 '%'});/**/
 	
+	// plane perspective test
+	tris.push_back(
+		{vert{.5,-.5,0},
+		 vert{.5,-.5,.25},
+		 vert{.75,-.5,.25},
+		 '.'});
+	tris.push_back(
+		{vert{.5,-.5,0},
+		 vert{.75,-.5,0},
+		 vert{.75,-.5,.25},
+		 '.'});
+	tris.push_back(
+		{vert{.5,-.5,-0},
+		 vert{.5,-.5,-.25},
+		 vert{.25,-.5,-.25},
+		 '.'});
+	tris.push_back(
+		{vert{.5,-.5,-0},
+		 vert{.25,-.5,-0},
+		 vert{.25,-.5,-.25},
+		 '.'});
+	tris.push_back(
+		{vert{.5,-.5,0},
+		 vert{.5,-.5,.25},
+		 vert{.25,-.5,.25},
+		 'N'});
+	tris.push_back(
+		{vert{.5,-.5,0},
+		 vert{.25,-.5,0},
+		 vert{.25,-.5,.25},
+		 'N'});
+	tris.push_back(
+		{vert{.5,-.5,-0},
+		 vert{.5,-.5,-.25},
+		 vert{.75,-.5,-.25},
+		 'N'});
+	tris.push_back(
+		{vert{.5,-.5,-0},
+		 vert{.75,-.5,-0},
+		 vert{.75,-.5,-.25},
+		 'N'});
+	tris.push_back(
+		{vert{-.5,-.5,0},
+		 vert{-.5,-.5,.25},
+		 vert{-.75,-.5,.25},
+		 'N'});
+	tris.push_back(
+		{vert{-.5,-.5,0},
+		 vert{-.75,-.5,0},
+		 vert{-.75,-.5,.25},
+		 'N'});
+	tris.push_back(
+		{vert{-.5,-.5,-0},
+		 vert{-.5,-.5,-.25},
+		 vert{-.25,-.5,-.25},
+		 'N'});
+	tris.push_back(
+		{vert{-.5,-.5,-0},
+		 vert{-.25,-.5,-0},
+		 vert{-.25,-.5,-.25},
+		 'N'});
+	tris.push_back(
+		{vert{-.5,-.5,0},
+		 vert{-.5,-.5,.25},
+		 vert{-.25,-.5,.25},
+		 '.'});
+	tris.push_back(
+		{vert{-.5,-.5,0},
+		 vert{-.25,-.5,0},
+		 vert{-.25,-.5,.25},
+		 '.'});
+	tris.push_back(
+		{vert{-.5,-.5,-0},
+		 vert{-.5,-.5,-.25},
+		 vert{-.75,-.5,-.25},
+		 '.'});
+	tris.push_back(
+		{vert{-.5,-.5,-0},
+		 vert{-.75,-.5,-0},
+		 vert{-.75,-.5,-.25},
+		 '.'});
+	tris.push_back(
+		{vert{0,-.5,.5},
+		 vert{0,-.5,.75},
+		 vert{.25,-.5,.75},
+		 '.'});
+	tris.push_back(
+		{vert{0,-.5,.5},
+		 vert{.25,-.5,.5},
+		 vert{.25,-.5,.75},
+		 '.'});
+	tris.push_back(
+		{vert{0,-.5,.5},
+		 vert{0,-.5,.25},
+		 vert{-.25,-.5,.25},
+		 '.'});
+	tris.push_back(
+		{vert{0,-.5,.5},
+		 vert{-.25,-.5,.5},
+		 vert{-.25,-.5,.25},
+		 '.'});
+	tris.push_back(
+		{vert{0,-.5,.5},
+		 vert{0,-.5,.75},
+		 vert{-.25,-.5,.75},
+		 'N'});
+	tris.push_back(
+		{vert{0,-.5,.5},
+		 vert{-.25,-.5,.5},
+		 vert{-.25,-.5,.75},
+		 'N'});
+	tris.push_back(
+		{vert{0,-.5,.5},
+		 vert{0,-.5,.25},
+		 vert{.25,-.5,.25},
+		 'N'});
+	tris.push_back(
+		{vert{0,-.5,.5},
+		 vert{.25,-.5,.5},
+		 vert{.25,-.5,.25},
+		 'N'});
+	tris.push_back(
+		{vert{.5,-.5,.5},
+		 vert{.5,-.5,.75},
+		 vert{.75,-.5,.75},
+		 '.'});
+	tris.push_back(
+		{vert{.5,-.5,.5},
+		 vert{.75,-.5,.5},
+		 vert{.75,-.5,.75},
+		 '.'});
+	tris.push_back(
+		{vert{.5,-.5,.5},
+		 vert{.5,-.5,.25},
+		 vert{.25,-.5,.25},
+		 '.'});
+	tris.push_back(
+		{vert{.5,-.5,.5},
+		 vert{.25,-.5,.5},
+		 vert{.25,-.5,.25},
+		 '.'});
+	tris.push_back(
+		{vert{.5,-.5,.5},
+		 vert{.5,-.5,.75},
+		 vert{.25,-.5,.75},
+		 'N'});
+	tris.push_back(
+		{vert{.5,-.5,.5},
+		 vert{.25,-.5,.5},
+		 vert{.25,-.5,.75},
+		 'N'});
+	tris.push_back(
+		{vert{.5,-.5,.5},
+		 vert{.5,-.5,.25},
+		 vert{.75,-.5,.25},
+		 'N'});
+	tris.push_back(
+		{vert{.5,-.5,.5},
+		 vert{.75,-.5,.5},
+		 vert{.75,-.5,.25},
+		 'N'});
+	tris.push_back(
+		{vert{-.5,-.5,.5},
+		 vert{-.5,-.5,.75},
+		 vert{-.75,-.5,.75},
+		 'N'});
+	tris.push_back(
+		{vert{-.5,-.5,.5},
+		 vert{-.75,-.5,.5},
+		 vert{-.75,-.5,.75},
+		 'N'});
+	tris.push_back(
+		{vert{-.5,-.5,.5},
+		 vert{-.5,-.5,.25},
+		 vert{-.25,-.5,.25},
+		 'N'});
+	tris.push_back(
+		{vert{-.5,-.5,.5},
+		 vert{-.25,-.5,.5},
+		 vert{-.25,-.5,.25},
+		 'N'});
+	tris.push_back(
+		{vert{-.5,-.5,.5},
+		 vert{-.5,-.5,.75},
+		 vert{-.25,-.5,.75},
+		 '.'});
+	tris.push_back(
+		{vert{-.5,-.5,.5},
+		 vert{-.25,-.5,.5},
+		 vert{-.25,-.5,.75},
+		 '.'});
+	tris.push_back(
+		{vert{-.5,-.5,.5},
+		 vert{-.5,-.5,.25},
+		 vert{-.75,-.5,.25},
+		 '.'});
+	tris.push_back(
+		{vert{-.5,-.5,.5},
+		 vert{-.75,-.5,.5},
+		 vert{-.75,-.5,.25},
+		 '.'});
+	tris.push_back(
+		{vert{0,-.5,-.5},
+		 vert{0,-.5,-.25},
+		 vert{.25,-.5,-.25},
+		 '.'});
+	tris.push_back(
+		{vert{0,-.5,-.5},
+		 vert{.25,-.5,-.5},
+		 vert{.25,-.5,-.25},
+		 '.'});
+	tris.push_back(
+		{vert{0,-.5,-.5},
+		 vert{0,-.5,-.75},
+		 vert{-.25,-.5,-.75},
+		 '.'});
+	tris.push_back(
+		{vert{0,-.5,-.5},
+		 vert{-.25,-.5,-.5},
+		 vert{-.25,-.5,-.75},
+		 '.'});
+	tris.push_back(
+		{vert{0,-.5,-.5},
+		 vert{0,-.5,-.25},
+		 vert{-.25,-.5,-.25},
+		 'N'});
+	tris.push_back(
+		{vert{0,-.5,-.5},
+		 vert{-.25,-.5,-.5},
+		 vert{-.25,-.5,-.25},
+		 'N'});
+	tris.push_back(
+		{vert{0,-.5,-.5},
+		 vert{0,-.5,-.75},
+		 vert{.25,-.5,-.75},
+		 'N'});
+	tris.push_back(
+		{vert{0,-.5,-.5},
+		 vert{.25,-.5,-.5},
+		 vert{.25,-.5,-.75},
+		 'N'});
+	tris.push_back(
+		{vert{.5,-.5,-.5},
+		 vert{.5,-.5,-.25},
+		 vert{.75,-.5,-.25},
+		 '.'});
+	tris.push_back(
+		{vert{.5,-.5,-.5},
+		 vert{.75,-.5,-.5},
+		 vert{.75,-.5,-.25},
+		 '.'});
+	tris.push_back(
+		{vert{.5,-.5,-.5},
+		 vert{.5,-.5,-.75},
+		 vert{.25,-.5,-.75},
+		 '.'});
+	tris.push_back(
+		{vert{.5,-.5,-.5},
+		 vert{.25,-.5,-.5},
+		 vert{.25,-.5,-.75},
+		 '.'});
+	tris.push_back(
+		{vert{.5,-.5,-.5},
+		 vert{.5,-.5,-.25},
+		 vert{.25,-.5,-.25},
+		 'N'});
+	tris.push_back(
+		{vert{.5,-.5,-.5},
+		 vert{.25,-.5,-.5},
+		 vert{.25,-.5,-.25},
+		 'N'});
+	tris.push_back(
+		{vert{.5,-.5,-.5},
+		 vert{.5,-.5,-.75},
+		 vert{.75,-.5,-.75},
+		 'N'});
+	tris.push_back(
+		{vert{.5,-.5,-.5},
+		 vert{.75,-.5,-.5},
+		 vert{.75,-.5,-.75},
+		 'N'});
+	tris.push_back(
+		{vert{-.5,-.5,-.5},
+		 vert{-.5,-.5,-.25},
+		 vert{-.75,-.5,-.25},
+		 'N'});
+	tris.push_back(
+		{vert{-.5,-.5,-.5},
+		 vert{-.75,-.5,-.5},
+		 vert{-.75,-.5,-.25},
+		 'N'});
+	tris.push_back(
+		{vert{-.5,-.5,-.5},
+		 vert{-.5,-.5,-.75},
+		 vert{-.25,-.5,-.75},
+		 'N'});
+	tris.push_back(
+		{vert{-.5,-.5,-.5},
+		 vert{-.25,-.5,-.5},
+		 vert{-.25,-.5,-.75},
+		 'N'});
+	tris.push_back(
+		{vert{-.5,-.5,-.5},
+		 vert{-.5,-.5,-.25},
+		 vert{-.25,-.5,-.25},
+		 '.'});
+	tris.push_back(
+		{vert{-.5,-.5,-.5},
+		 vert{-.25,-.5,-.5},
+		 vert{-.25,-.5,-.25},
+		 '.'});
+	tris.push_back(
+		{vert{-.5,-.5,-.5},
+		 vert{-.5,-.5,-.75},
+		 vert{-.75,-.5,-.75},
+		 '.'});
+	tris.push_back(
+		{vert{-.5,-.5,-.5},
+		 vert{-.75,-.5,-.5},
+		 vert{-.75,-.5,-.75},
+		 '.'});
+	tris.push_back(
+		{vert{.5,.5,0},
+		 vert{.5,.5,.25},
+		 vert{.75,.5,.25},
+		 '.'});
+	tris.push_back(
+		{vert{.5,.5,0},
+		 vert{.75,.5,0},
+		 vert{.75,.5,.25},
+		 '.'});
+	tris.push_back(
+		{vert{.5,.5,-0},
+		 vert{.5,.5,-.25},
+		 vert{.25,.5,-.25},
+		 '.'});
+	tris.push_back(
+		{vert{.5,.5,-0},
+		 vert{.25,.5,-0},
+		 vert{.25,.5,-.25},
+		 '.'});
+	tris.push_back(
+		{vert{.5,.5,0},
+		 vert{.5,.5,.25},
+		 vert{.25,.5,.25},
+		 'N'});
+	tris.push_back(
+		{vert{.5,.5,0},
+		 vert{.25,.5,0},
+		 vert{.25,.5,.25},
+		 'N'});
+	tris.push_back(
+		{vert{.5,.5,-0},
+		 vert{.5,.5,-.25},
+		 vert{.75,.5,-.25},
+		 'N'});
+	tris.push_back(
+		{vert{.5,.5,-0},
+		 vert{.75,.5,-0},
+		 vert{.75,.5,-.25},
+		 'N'});
+	tris.push_back(
+		{vert{-.5,.5,0},
+		 vert{-.5,.5,.25},
+		 vert{-.75,.5,.25},
+		 'N'});
+	tris.push_back(
+		{vert{-.5,.5,0},
+		 vert{-.75,.5,0},
+		 vert{-.75,.5,.25},
+		 'N'});
+	tris.push_back(
+		{vert{-.5,.5,-0},
+		 vert{-.5,.5,-.25},
+		 vert{-.25,.5,-.25},
+		 'N'});
+	tris.push_back(
+		{vert{-.5,.5,-0},
+		 vert{-.25,.5,-0},
+		 vert{-.25,.5,-.25},
+		 'N'});
+	tris.push_back(
+		{vert{-.5,.5,0},
+		 vert{-.5,.5,.25},
+		 vert{-.25,.5,.25},
+		 '.'});
+	tris.push_back(
+		{vert{-.5,.5,0},
+		 vert{-.25,.5,0},
+		 vert{-.25,.5,.25},
+		 '.'});
+	tris.push_back(
+		{vert{-.5,.5,-0},
+		 vert{-.5,.5,-.25},
+		 vert{-.75,.5,-.25},
+		 '.'});
+	tris.push_back(
+		{vert{-.5,.5,-0},
+		 vert{-.75,.5,-0},
+		 vert{-.75,.5,-.25},
+		 '.'});
+	tris.push_back(
+		{vert{0,.5,.5},
+		 vert{0,.5,.75},
+		 vert{.25,.5,.75},
+		 '.'});
+	tris.push_back(
+		{vert{0,.5,.5},
+		 vert{.25,.5,.5},
+		 vert{.25,.5,.75},
+		 '.'});
+	tris.push_back(
+		{vert{0,.5,.5},
+		 vert{0,.5,.25},
+		 vert{-.25,.5,.25},
+		 '.'});
+	tris.push_back(
+		{vert{0,.5,.5},
+		 vert{-.25,.5,.5},
+		 vert{-.25,.5,.25},
+		 '.'});
+	tris.push_back(
+		{vert{0,.5,.5},
+		 vert{0,.5,.75},
+		 vert{-.25,.5,.75},
+		 'N'});
+	tris.push_back(
+		{vert{0,.5,.5},
+		 vert{-.25,.5,.5},
+		 vert{-.25,.5,.75},
+		 'N'});
+	tris.push_back(
+		{vert{0,.5,.5},
+		 vert{0,.5,.25},
+		 vert{.25,.5,.25},
+		 'N'});
+	tris.push_back(
+		{vert{0,.5,.5},
+		 vert{.25,.5,.5},
+		 vert{.25,.5,.25},
+		 'N'});
+	tris.push_back(
+		{vert{.5,.5,.5},
+		 vert{.5,.5,.75},
+		 vert{.75,.5,.75},
+		 '.'});
+	tris.push_back(
+		{vert{.5,.5,.5},
+		 vert{.75,.5,.5},
+		 vert{.75,.5,.75},
+		 '.'});
+	tris.push_back(
+		{vert{.5,.5,.5},
+		 vert{.5,.5,.25},
+		 vert{.25,.5,.25},
+		 '.'});
+	tris.push_back(
+		{vert{.5,.5,.5},
+		 vert{.25,.5,.5},
+		 vert{.25,.5,.25},
+		 '.'});
+	tris.push_back(
+		{vert{.5,.5,.5},
+		 vert{.5,.5,.75},
+		 vert{.25,.5,.75},
+		 'N'});
+	tris.push_back(
+		{vert{.5,.5,.5},
+		 vert{.25,.5,.5},
+		 vert{.25,.5,.75},
+		 'N'});
+	tris.push_back(
+		{vert{.5,.5,.5},
+		 vert{.5,.5,.25},
+		 vert{.75,.5,.25},
+		 'N'});
+	tris.push_back(
+		{vert{.5,.5,.5},
+		 vert{.75,.5,.5},
+		 vert{.75,.5,.25},
+		 'N'});
+	tris.push_back(
+		{vert{-.5,.5,.5},
+		 vert{-.5,.5,.75},
+		 vert{-.75,.5,.75},
+		 'N'});
+	tris.push_back(
+		{vert{-.5,.5,.5},
+		 vert{-.75,.5,.5},
+		 vert{-.75,.5,.75},
+		 'N'});
+	tris.push_back(
+		{vert{-.5,.5,.5},
+		 vert{-.5,.5,.25},
+		 vert{-.25,.5,.25},
+		 'N'});
+	tris.push_back(
+		{vert{-.5,.5,.5},
+		 vert{-.25,.5,.5},
+		 vert{-.25,.5,.25},
+		 'N'});
+	tris.push_back(
+		{vert{-.5,.5,.5},
+		 vert{-.5,.5,.75},
+		 vert{-.25,.5,.75},
+		 '.'});
+	tris.push_back(
+		{vert{-.5,.5,.5},
+		 vert{-.25,.5,.5},
+		 vert{-.25,.5,.75},
+		 '.'});
+	tris.push_back(
+		{vert{-.5,.5,.5},
+		 vert{-.5,.5,.25},
+		 vert{-.75,.5,.25},
+		 '.'});
+	tris.push_back(
+		{vert{-.5,.5,.5},
+		 vert{-.75,.5,.5},
+		 vert{-.75,.5,.25},
+		 '.'});
+	tris.push_back(
+		{vert{0,.5,-.5},
+		 vert{0,.5,-.25},
+		 vert{.25,.5,-.25},
+		 '.'});
+	tris.push_back(
+		{vert{0,.5,-.5},
+		 vert{.25,.5,-.5},
+		 vert{.25,.5,-.25},
+		 '.'});
+	tris.push_back(
+		{vert{0,.5,-.5},
+		 vert{0,.5,-.75},
+		 vert{-.25,.5,-.75},
+		 '.'});
+	tris.push_back(
+		{vert{0,.5,-.5},
+		 vert{-.25,.5,-.5},
+		 vert{-.25,.5,-.75},
+		 '.'});
+	tris.push_back(
+		{vert{0,.5,-.5},
+		 vert{0,.5,-.25},
+		 vert{-.25,.5,-.25},
+		 'N'});
+	tris.push_back(
+		{vert{0,.5,-.5},
+		 vert{-.25,.5,-.5},
+		 vert{-.25,.5,-.25},
+		 'N'});
+	tris.push_back(
+		{vert{0,.5,-.5},
+		 vert{0,.5,-.75},
+		 vert{.25,.5,-.75},
+		 'N'});
+	tris.push_back(
+		{vert{0,.5,-.5},
+		 vert{.25,.5,-.5},
+		 vert{.25,.5,-.75},
+		 'N'});
+	tris.push_back(
+		{vert{.5,.5,-.5},
+		 vert{.5,.5,-.25},
+		 vert{.75,.5,-.25},
+		 '.'});
+	tris.push_back(
+		{vert{.5,.5,-.5},
+		 vert{.75,.5,-.5},
+		 vert{.75,.5,-.25},
+		 '.'});
+	tris.push_back(
+		{vert{.5,.5,-.5},
+		 vert{.5,.5,-.75},
+		 vert{.25,.5,-.75},
+		 '.'});
+	tris.push_back(
+		{vert{.5,.5,-.5},
+		 vert{.25,.5,-.5},
+		 vert{.25,.5,-.75},
+		 '.'});
+	tris.push_back(
+		{vert{.5,.5,-.5},
+		 vert{.5,.5,-.25},
+		 vert{.25,.5,-.25},
+		 'N'});
+	tris.push_back(
+		{vert{.5,.5,-.5},
+		 vert{.25,.5,-.5},
+		 vert{.25,.5,-.25},
+		 'N'});
+	tris.push_back(
+		{vert{.5,.5,-.5},
+		 vert{.5,.5,-.75},
+		 vert{.75,.5,-.75},
+		 'N'});
+	tris.push_back(
+		{vert{.5,.5,-.5},
+		 vert{.75,.5,-.5},
+		 vert{.75,.5,-.75},
+		 'N'});
+	tris.push_back(
+		{vert{-.5,.5,-.5},
+		 vert{-.5,.5,-.25},
+		 vert{-.75,.5,-.25},
+		 'N'});
+	tris.push_back(
+		{vert{-.5,.5,-.5},
+		 vert{-.75,.5,-.5},
+		 vert{-.75,.5,-.25},
+		 'N'});
+	tris.push_back(
+		{vert{-.5,.5,-.5},
+		 vert{-.5,.5,-.75},
+		 vert{-.25,.5,-.75},
+		 'N'});
+	tris.push_back(
+		{vert{-.5,.5,-.5},
+		 vert{-.25,.5,-.5},
+		 vert{-.25,.5,-.75},
+		 'N'});
+	tris.push_back(
+		{vert{-.5,.5,-.5},
+		 vert{-.5,.5,-.25},
+		 vert{-.25,.5,-.25},
+		 '.'});
+	tris.push_back(
+		{vert{-.5,.5,-.5},
+		 vert{-.25,.5,-.5},
+		 vert{-.25,.5,-.25},
+		 '.'});
+	tris.push_back(
+		{vert{-.5,.5,-.5},
+		 vert{-.5,.5,-.75},
+		 vert{-.75,.5,-.75},
+		 '.'});
+	tris.push_back(
+		{vert{-.5,.5,-.5},
+		 vert{-.75,.5,-.5},
+		 vert{-.75,.5,-.75},
+		 '.'});/**/
+	
 	double angle = .05;
 	
 	// loop for each frame
@@ -661,7 +1303,7 @@ int main()
 			// pull out the tri we will rotate
 			tri t = tris.at(i);
 			
-			/*// rotate tri xy plane
+			// rotate tri xy plane
 			double newX = t.a.x*cos(angle) - t.a.y*sin(angle);
 			double newY = t.a.x*sin(angle) + t.a.y*cos(angle);
 			t.a.x = newX;
@@ -678,7 +1320,7 @@ int main()
 			t.c.y = newY;/**/
 			
 			// rotate tri xz plane
-			double newX = t.a.x*cos(angle) - t.a.z*sin(angle);
+			newX = t.a.x*cos(angle) - t.a.z*sin(angle);
 			double newZ = t.a.x*sin(angle) + t.a.z*cos(angle);
 			t.a.x = newX;
 			t.a.z = newZ;
@@ -692,6 +1334,11 @@ int main()
 			newZ = t.c.x*sin(angle) + t.c.z*cos(angle);
 			t.c.x = newX;
 			t.c.z = newZ;/**/
+			
+			// rise in x
+			t.a.x += .005;
+			t.b.x += .005;
+			t.c.x += .005;/**/
 			
 			// store the tri back in the array
 			tris.at(i) = t;
@@ -712,7 +1359,7 @@ int main()
 			t.b.y *= eng.d/dist;
 			dist = eng.d - t.c.z;
 			t.c.x *= eng.d/dist;
-			t.c.y *= eng.d/dist;
+			t.c.y *= eng.d/dist;/**/
 			
 			// find normal vector to plane
 			double v1x = t.b.x - t.a.x;
@@ -823,7 +1470,7 @@ int main()
 				}
 			}
 			
-			// label vertices
+			/*// label vertices
 			int aW = ((t.a.x+(eng.windowW/2.0))/eng.windowW)*(eng.resW-1);
 			int aH = ((t.a.y+(eng.windowH/2.0))/eng.windowH)*(eng.resH-1);
 			int bW = ((t.b.x+(eng.windowW/2.0))/eng.windowW)*(eng.resW-1);
@@ -832,7 +1479,7 @@ int main()
 			int cH = ((t.c.y+(eng.windowH/2.0))/eng.windowH)*(eng.resH-1);
 			triRender[aW][aH] = 'a';
 			triRender[bW][bH] = 'b';
-			triRender[cW][cH] = 'c';
+			triRender[cW][cH] = 'c';/**/
 			
 			// print to frame
 			for(int h = eng.resH-1; h >= 0; h--)
