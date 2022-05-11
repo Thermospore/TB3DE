@@ -11,6 +11,9 @@ const double INF = 9999999; // used to represent depth of empty space
 
 struct engineSettings
 {
+	// cam dist to origin
+	double d;
+	
 	// font size
 	int fontW;
 	int fontH;
@@ -42,6 +45,7 @@ struct tri
 int main()
 {
 	engineSettings eng;
+	eng.d = 2;
 	eng.fontW = 8;
 	eng.fontH = 16;
 	eng.resW = 120;
@@ -575,7 +579,7 @@ int main()
 		vert{-0.10,-0.37,0.51},
 		'.'});/**/
 	
-	/*// depth buffer test
+	// depth buffer test
 	// front to back
 	tris.push_back(
 		{vert{-.7,-.25,.1},
@@ -612,7 +616,7 @@ int main()
 		 vert{5,0,3},
 		 '*'});/**/
 	
-	// z-fight
+	/*// z-fight
 	tris.push_back(
 		{vert{-.5,-.25,0},
 		 vert{-.5,.25,0},
@@ -657,7 +661,7 @@ int main()
 			// pull out the tri we will rotate
 			tri t = tris.at(i);
 			
-			// rotate tri xy plane
+			/*// rotate tri xy plane
 			double newX = t.a.x*cos(angle) - t.a.y*sin(angle);
 			double newY = t.a.x*sin(angle) + t.a.y*cos(angle);
 			t.a.x = newX;
@@ -671,10 +675,10 @@ int main()
 			newX = t.c.x*cos(angle) - t.c.y*sin(angle);
 			newY = t.c.x*sin(angle) + t.c.y*cos(angle);
 			t.c.x = newX;
-			t.c.y = newY;
+			t.c.y = newY;/**/
 			
 			// rotate tri xz plane
-			newX = t.a.x*cos(angle) - t.a.z*sin(angle);
+			double newX = t.a.x*cos(angle) - t.a.z*sin(angle);
 			double newZ = t.a.x*sin(angle) + t.a.z*cos(angle);
 			t.a.x = newX;
 			t.a.z = newZ;
@@ -687,7 +691,7 @@ int main()
 			newX = t.c.x*cos(angle) - t.c.z*sin(angle);
 			newZ = t.c.x*sin(angle) + t.c.z*cos(angle);
 			t.c.x = newX;
-			t.c.z = newZ;
+			t.c.z = newZ;/**/
 			
 			// store the tri back in the array
 			tris.at(i) = t;
@@ -698,6 +702,17 @@ int main()
 		{
 			// pull out the tri we will render
 			tri t = tris.at(i);
+			
+			// perspective adjustment
+			double dist = eng.d - t.a.z;
+			t.a.x *= eng.d/dist;
+			t.a.y *= eng.d/dist;
+			dist = eng.d - t.b.z;
+			t.b.x *= eng.d/dist;
+			t.b.y *= eng.d/dist;
+			dist = eng.d - t.c.z;
+			t.c.x *= eng.d/dist;
+			t.c.y *= eng.d/dist;
 			
 			// find normal vector to plane
 			double v1x = t.b.x - t.a.x;
