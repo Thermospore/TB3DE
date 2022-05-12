@@ -45,6 +45,8 @@ struct engineSettings
 	// in hz. not exactly frame rate,
 	// it's how long the engine waits between drawing frames
 	int framerate;
+	
+	bool specialFill;
 };
 
 struct vert
@@ -82,12 +84,14 @@ int main()
 	
 	eng.persp = true;
 	eng.vertLabels = true;
+	eng.specialFill = false;
 	eng.framerate = 67;
 	
 	// init tri list
 	vector<tri> tris;
 	
 	/*// og test
+	eng.xyRot = true;
 	tris.push_back(
 		{vert{-.45,-.22,.46},
 		 vert{-.15,-.46,.16},
@@ -110,6 +114,11 @@ int main()
 		 ';'});/**/
 	
 	/*// 100 randos
+	eng.d = 3;
+	eng.windowH = 1.5;
+	eng.radPerFrame = .03;
+	eng.vertLabels = false;
+	eng.specialFill = true;
 	tris.push_back(
 		{vert{-0.01,-0.04,-0.53},
 		vert{-0.97,0.49,0.71},
@@ -611,7 +620,7 @@ int main()
 		vert{-0.10,-0.37,0.51},
 		'.'});/**/
 	
-	// depth buffer test
+	/*// depth buffer test
 	// front to back
 	tris.push_back(
 		{vert{-.7,-.25,.1},
@@ -641,14 +650,9 @@ int main()
 		 vert{.9,.25,0},
 		 '~'});/**/
 	
-	/*// plane equation test
-	tris.push_back(
-		{vert{1,0,2},
-		 vert{-1,1,2},
-		 vert{5,0,3},
-		 '*'});/**/
-	
 	/*// z-fight
+	eng.xyRot = true;
+	eng.persp = false;
 	tris.push_back(
 		{vert{-.5,-.25,0},
 		 vert{-.5,.25,0},
@@ -670,7 +674,10 @@ int main()
 		 vert{.25,-.5,0},
 		 '%'});/**/
 	
-	/*// plane perspective test
+	// plane perspective test
+	eng.d = 1.5;
+	eng.xyRot = true;
+	eng.vertLabels = false;
 	eng.xDelta = .005;
 	tris.push_back(
 		{vert{.5,-.5,0},
@@ -1424,8 +1431,8 @@ int main()
 				for(int w = 0; w <= eng.resW-1; w++)
 				{
 					triRender[w][h] = t.fill;
-					// TEMP: sudo-random fill
-					//triRender[w][h] = (tris.at(i).a.y+1)/2*40+30;
+					if(eng.specialFill)
+						triRender[w][h] = (tris.at(i).a.y+1)/2*40+30;
 					
 					double loopX = (double)w/(eng.resW-1)*eng.windowW-(eng.windowW/2.0);
 					double loopY = (double)h/(eng.resH-1)*eng.windowH-(eng.windowH/2.0);
