@@ -18,13 +18,33 @@ struct engineSettings
 	int fontW;
 	int fontH;
 	
-	// chars in console
+	// console res (in chars)
 	int resW;
 	int resH;
 	
 	// window coord range
 	double windowH;
 	double windowW;
+	
+	// change in angle per frame
+	double radPerFrame;
+	
+	// enable rotations
+	bool xyRot;
+	bool xzRot;
+	
+	// change in x per frame
+	double xDelta;
+	
+	// enable perspective correction
+	bool persp;
+	
+	// label vertices (a b c)
+	bool vertLabels;
+	
+	// in hz. not exactly frame rate,
+	// it's how long the engine waits between drawing frames
+	int framerate;
 };
 
 struct vert
@@ -45,7 +65,9 @@ struct tri
 int main()
 {
 	engineSettings eng;
-	eng.d = 1.5;
+	
+	// default engine setings
+	eng.d = 2;
 	eng.fontW = 8;
 	eng.fontH = 16;
 	eng.resW = 120;
@@ -53,6 +75,16 @@ int main()
 	eng.windowH = 1;
 	eng.windowW = eng.windowH/(eng.resH*eng.fontH)*(eng.resW*eng.fontW);
 	
+	eng.radPerFrame = .05;
+	eng.xyRot = false;
+	eng.xzRot = true;
+	eng.xDelta = 0;
+	
+	eng.persp = true;
+	eng.vertLabels = true;
+	eng.framerate = 67;
+	
+	// init tri list
 	vector<tri> tris;
 	
 	/*// og test
@@ -579,7 +611,7 @@ int main()
 		vert{-0.10,-0.37,0.51},
 		'.'});/**/
 	
-	/*// depth buffer test
+	// depth buffer test
 	// front to back
 	tris.push_back(
 		{vert{-.7,-.25,.1},
@@ -638,7 +670,8 @@ int main()
 		 vert{.25,-.5,0},
 		 '%'});/**/
 	
-	// plane perspective test
+	/*// plane perspective test
+	eng.xDelta = .005;
 	tris.push_back(
 		{vert{.5,-.5,0},
 		 vert{.5,-.5,.25},
@@ -1280,8 +1313,6 @@ int main()
 		 vert{-.75,.5,-.75},
 		 '.'});/**/
 	
-	double angle = .05;
-	
 	// loop for each frame
 	while(1<2)
 	{
@@ -1303,42 +1334,52 @@ int main()
 			// pull out the tri we will rotate
 			tri t = tris.at(i);
 			
+			double newX;
+			double newY;
+			double newZ;
+			
 			// rotate tri xy plane
-			double newX = t.a.x*cos(angle) - t.a.y*sin(angle);
-			double newY = t.a.x*sin(angle) + t.a.y*cos(angle);
-			t.a.x = newX;
-			t.a.y = newY;
-			
-			newX = t.b.x*cos(angle) - t.b.y*sin(angle);
-			newY = t.b.x*sin(angle) + t.b.y*cos(angle);
-			t.b.x = newX;
-			t.b.y = newY;
-			
-			newX = t.c.x*cos(angle) - t.c.y*sin(angle);
-			newY = t.c.x*sin(angle) + t.c.y*cos(angle);
-			t.c.x = newX;
-			t.c.y = newY;/**/
+			if(eng.xyRot)
+			{
+				newX = t.a.x*cos(eng.radPerFrame) - t.a.y*sin(eng.radPerFrame);
+				newY = t.a.x*sin(eng.radPerFrame) + t.a.y*cos(eng.radPerFrame);
+				t.a.x = newX;
+				t.a.y = newY;
+				
+				newX = t.b.x*cos(eng.radPerFrame) - t.b.y*sin(eng.radPerFrame);
+				newY = t.b.x*sin(eng.radPerFrame) + t.b.y*cos(eng.radPerFrame);
+				t.b.x = newX;
+				t.b.y = newY;
+				
+				newX = t.c.x*cos(eng.radPerFrame) - t.c.y*sin(eng.radPerFrame);
+				newY = t.c.x*sin(eng.radPerFrame) + t.c.y*cos(eng.radPerFrame);
+				t.c.x = newX;
+				t.c.y = newY;
+			}
 			
 			// rotate tri xz plane
-			newX = t.a.x*cos(angle) - t.a.z*sin(angle);
-			double newZ = t.a.x*sin(angle) + t.a.z*cos(angle);
-			t.a.x = newX;
-			t.a.z = newZ;
-			
-			newX = t.b.x*cos(angle) - t.b.z*sin(angle);
-			newZ = t.b.x*sin(angle) + t.b.z*cos(angle);
-			t.b.x = newX;
-			t.b.z = newZ;
-			
-			newX = t.c.x*cos(angle) - t.c.z*sin(angle);
-			newZ = t.c.x*sin(angle) + t.c.z*cos(angle);
-			t.c.x = newX;
-			t.c.z = newZ;/**/
+			if(eng.xzRot)
+			{
+				newX = t.a.x*cos(eng.radPerFrame) - t.a.z*sin(eng.radPerFrame);
+				newZ = t.a.x*sin(eng.radPerFrame) + t.a.z*cos(eng.radPerFrame);
+				t.a.x = newX;
+				t.a.z = newZ;
+				
+				newX = t.b.x*cos(eng.radPerFrame) - t.b.z*sin(eng.radPerFrame);
+				newZ = t.b.x*sin(eng.radPerFrame) + t.b.z*cos(eng.radPerFrame);
+				t.b.x = newX;
+				t.b.z = newZ;
+				
+				newX = t.c.x*cos(eng.radPerFrame) - t.c.z*sin(eng.radPerFrame);
+				newZ = t.c.x*sin(eng.radPerFrame) + t.c.z*cos(eng.radPerFrame);
+				t.c.x = newX;
+				t.c.z = newZ;
+			}
 			
 			// rise in x
-			t.a.x += .005;
-			t.b.x += .005;
-			t.c.x += .005;/**/
+			t.a.x += eng.xDelta;
+			t.b.x += eng.xDelta;
+			t.c.x += eng.xDelta;
 			
 			// store the tri back in the array
 			tris.at(i) = t;
@@ -1351,15 +1392,18 @@ int main()
 			tri t = tris.at(i);
 			
 			// perspective adjustment
-			double dist = eng.d - t.a.z;
-			t.a.x *= eng.d/dist;
-			t.a.y *= eng.d/dist;
-			dist = eng.d - t.b.z;
-			t.b.x *= eng.d/dist;
-			t.b.y *= eng.d/dist;
-			dist = eng.d - t.c.z;
-			t.c.x *= eng.d/dist;
-			t.c.y *= eng.d/dist;/**/
+			if(eng.persp)
+			{
+				double dist = eng.d - t.a.z;
+				t.a.x *= eng.d/dist;
+				t.a.y *= eng.d/dist;
+				dist = eng.d - t.b.z;
+				t.b.x *= eng.d/dist;
+				t.b.y *= eng.d/dist;
+				dist = eng.d - t.c.z;
+				t.c.x *= eng.d/dist;
+				t.c.y *= eng.d/dist;
+			}
 			
 			// find normal vector to plane
 			double v1x = t.b.x - t.a.x;
@@ -1470,16 +1514,19 @@ int main()
 				}
 			}
 			
-			/*// label vertices
-			int aW = ((t.a.x+(eng.windowW/2.0))/eng.windowW)*(eng.resW-1);
-			int aH = ((t.a.y+(eng.windowH/2.0))/eng.windowH)*(eng.resH-1);
-			int bW = ((t.b.x+(eng.windowW/2.0))/eng.windowW)*(eng.resW-1);
-			int bH = ((t.b.y+(eng.windowH/2.0))/eng.windowH)*(eng.resH-1);
-			int cW = ((t.c.x+(eng.windowW/2.0))/eng.windowW)*(eng.resW-1);
-			int cH = ((t.c.y+(eng.windowH/2.0))/eng.windowH)*(eng.resH-1);
-			triRender[aW][aH] = 'a';
-			triRender[bW][bH] = 'b';
-			triRender[cW][cH] = 'c';/**/
+			// label vertices
+			if(eng.vertLabels)
+			{
+				int aW = ((t.a.x+(eng.windowW/2.0))/eng.windowW)*(eng.resW-1);
+				int aH = ((t.a.y+(eng.windowH/2.0))/eng.windowH)*(eng.resH-1);
+				int bW = ((t.b.x+(eng.windowW/2.0))/eng.windowW)*(eng.resW-1);
+				int bH = ((t.b.y+(eng.windowH/2.0))/eng.windowH)*(eng.resH-1);
+				int cW = ((t.c.x+(eng.windowW/2.0))/eng.windowW)*(eng.resW-1);
+				int cH = ((t.c.y+(eng.windowH/2.0))/eng.windowH)*(eng.resH-1);
+				triRender[aW][aH] = 'a';
+				triRender[bW][bH] = 'b';
+				triRender[cW][cH] = 'c';
+			}
 			
 			// print to frame
 			for(int h = eng.resH-1; h >= 0; h--)
@@ -1507,7 +1554,7 @@ int main()
 			}
 		}
 		cout << ss.str();
-		Sleep(15);
+		Sleep(1000/eng.framerate);
 	}
 	
 	return 0;
