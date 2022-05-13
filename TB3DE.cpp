@@ -5,6 +5,8 @@
 #include <sstream>
 #include <windows.h>
 #include <vector>
+#include <fstream>
+#include <string>
 using namespace std;
 
 const double INF = 9999999; // used to represent depth of empty space
@@ -673,6 +675,66 @@ int main()
 		 vert{.25,.5,0},
 		 vert{.25,-.5,0},
 		 '%'});/**/
+	
+	/*// read obj
+	vector<vert> verts;
+	ifstream objFile("objs/depth_buffer_test.obj");
+	string objLine;
+	while (getline (objFile, objLine)) // loop through each line
+	{
+		char firstChar = objLine[0];
+		if (firstChar == 'v') // vertex
+		{
+			// shave off the v
+			objLine.erase(0,objLine.find(" ")+1);
+			
+			vert newVert;
+			string newVal;
+			
+			// read xyz vals
+			newVal = objLine.substr(0,objLine.find(" "));
+			newVert.x = atof(newVal.c_str());
+			objLine.erase(0,objLine.find(" ")+1);
+			
+			newVal = objLine.substr(0,objLine.find(" "));
+			newVert.y = atof(newVal.c_str());
+			objLine.erase(0,objLine.find(" ")+1);
+			
+			newVal = objLine.substr(0,objLine.find(" "));
+			newVert.z = atof(newVal.c_str());
+			
+			// store in the vert list
+			verts.push_back(newVert);
+		}
+		else if (firstChar == 'f') // face
+		{
+			// shave off the f
+			objLine.erase(0,objLine.find(" ")+1);
+			
+			tri newTri;
+			int vertIndex;
+
+			// read tri indices
+			vertIndex = atoi(objLine.substr(0,objLine.find(" ")).c_str());
+			newTri.a = verts.at(vertIndex-1);
+			objLine.erase(0,objLine.find(" ")+1);
+			
+			vertIndex = atoi(objLine.substr(0,objLine.find(" ")).c_str());
+			newTri.b = verts.at(vertIndex-1);
+			objLine.erase(0,objLine.find(" ")+1);
+			
+			vertIndex = atoi(objLine.substr(0,objLine.find(" ")).c_str());
+			newTri.c = verts.at(vertIndex-1);
+			
+			// set fill (?)
+			newTri.fill = '?';
+			
+			// store in the tri list
+			tris.push_back(newTri);
+		}
+	}
+	objFile.close();
+	/**/
 	
 	// plane perspective test
 	eng.d = 1.5;
