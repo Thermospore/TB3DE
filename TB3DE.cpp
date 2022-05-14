@@ -676,18 +676,20 @@ int main()
 		 vert{.25,-.5,0},
 		 '%'});/**/
 	
-	/*// read obj
+	// read obj
+	eng.vertLabels = false;
 	vector<vert> verts;
-	ifstream objFile("objs/depth_buffer_test.obj");
+	double maxY = -INF;
+	double minY = INF;
+	
+	ifstream objFile("objs/Queen Gohma.obj");
 	string objLine;
 	while (getline (objFile, objLine)) // loop through each line
 	{
-		char firstChar = objLine[0];
-		if (firstChar == 'v') // vertex
+		string tag = objLine.substr(0,objLine.find(" "));
+		objLine.erase(0,objLine.find(" ")+1);
+		if (tag == "v") // vertex
 		{
-			// shave off the v
-			objLine.erase(0,objLine.find(" ")+1);
-			
 			vert newVert;
 			string newVal;
 			
@@ -702,19 +704,23 @@ int main()
 			
 			newVal = objLine.substr(0,objLine.find(" "));
 			newVert.z = atof(newVal.c_str());
-			
+						
 			// store in the vert list
 			verts.push_back(newVert);
-		}
-		else if (firstChar == 'f') // face
-		{
-			// shave off the f
-			objLine.erase(0,objLine.find(" ")+1);
 			
+			// update max/min y for normalization
+			if (newVert.y > maxY)
+				maxY = newVert.y;
+			if (newVert.y < minY)
+				minY = newVert.y;
+		}
+		else if (tag == "f") // face
+		{
 			tri newTri;
 			int vertIndex;
 
-			// read tri indices
+			// read vert indices
+			// luckily atoi() seems to ditch all the junk after the first slash
 			vertIndex = atoi(objLine.substr(0,objLine.find(" ")).c_str());
 			newTri.a = verts.at(vertIndex-1);
 			objLine.erase(0,objLine.find(" ")+1);
@@ -734,9 +740,33 @@ int main()
 		}
 	}
 	objFile.close();
+	
+	// normalize y pos + scale
+	for(int i = 0; i < tris.size(); i++)
+	{
+		double offset = (maxY+minY)/2;
+		double scale = .8/(maxY-minY);
+		
+		tris.at(i).a.y -= offset;
+		tris.at(i).b.y -= offset;
+		tris.at(i).c.y -= offset;
+		
+		tris.at(i).a.x *= scale;
+		tris.at(i).b.x *= scale;
+		tris.at(i).c.x *= scale;
+		tris.at(i).a.y *= scale;
+		tris.at(i).b.y *= scale;
+		tris.at(i).c.y *= scale;
+		tris.at(i).a.z *= scale;
+		tris.at(i).b.z *= scale;
+		tris.at(i).c.z *= scale;
+		
+		// use coords as seed for fill char
+		tris.at(i).fill = (tris.at(i).a.y+tris.at(i).a.z+.5)*50+40;
+	}
 	/**/
 	
-	// plane perspective test
+	/*// plane perspective test
 	eng.d = 1.5;
 	eng.xyRot = true;
 	eng.vertLabels = false;
