@@ -1519,8 +1519,73 @@ int main()
 			double v2z = t.c.z - t.a.z;
 			double nx = v1y*v2z - v1z*v2y;
 			double ny = v1z*v2x - v1x*v2z;
-			double nz = v1x*v2y - v1y*v2x;			
-				
+			double nz = v1x*v2y - v1y*v2x;
+			
+			// NEW DRAW FN
+			
+			// slope of line
+			double mAB = (t.b.y-t.a.y)/(t.b.x-t.a.x);
+			double mBC = (t.b.y-t.c.y)/(t.b.x-t.c.x);
+			double mAC = (t.a.y-t.c.y)/(t.a.x-t.c.x);
+			
+			// Y of line at opp vert
+			double lineYatC = mAB*(t.c.x-t.a.x)+t.a.y; 
+			double lineYatA = mBC*(t.a.x-t.b.x)+t.b.y;
+			double lineYatB = mAC*(t.b.x-t.c.x)+t.c.y;
+			
+			// find box around tri
+			// so we don't have to loop through every char in the frame
+			// jfc this is a crazy speed boost lol
+			int aW = ((t.a.x+(eng.windowW/2.0))/eng.windowW)*(eng.resW-1);
+			int aH = ((t.a.y+(eng.windowH/2.0))/eng.windowH)*(eng.resH-1);
+			int bW = ((t.b.x+(eng.windowW/2.0))/eng.windowW)*(eng.resW-1);
+			int bH = ((t.b.y+(eng.windowH/2.0))/eng.windowH)*(eng.resH-1);
+			int cW = ((t.c.x+(eng.windowW/2.0))/eng.windowW)*(eng.resW-1);
+			int cH = ((t.c.y+(eng.windowH/2.0))/eng.windowH)*(eng.resH-1);
+			int lowerH = min(min(aH,bH),min(bH,cH));
+			int upperH = max(max(aH,bH),max(bH,cH));
+			int lowerW = min(min(aW,bW),min(bW,cW));
+			int upperW = max(max(aW,bW),max(bW,cW));
+			
+			// draw tri into the frame, char by char
+			for(int h = max(lowerH,0); h <= min(upperH,eng.resH-1); h++)
+			{
+				for(int w = max(lowerW,0); w <= min(upperW,eng.resW-1); w++)
+				{
+					// coords of the current char
+					double curX = (double)w/(eng.resW-1)*eng.windowW-(eng.windowW/2.0);
+					double curY = (double)h/(eng.resH-1)*eng.windowH-(eng.windowH/2.0);
+					double curDepth = (nx*(curX - t.a.x) + ny*(curY - t.a.y))/(-nz) + t.a.z;
+					
+					// for each line (AB BC AC) of the tri,
+					// the current char and the opposite vert (C A B) must be on the same side
+					
+					// check AB line
+					double lineYcur = mAB*(curX-t.a.x)+t.a.y; // Y of line at current char
+					if ((curY - lineYcur) * (t.c.y - lineYatC) > 0) // check to see if sign is same
+					{
+						// check BC line
+						lineYcur = mBC*(curX-t.c.x)+t.c.y; // Y of line at current char
+						if ((curY - lineYcur) * (t.a.y - lineYatA) > 0) // check to see if sign is same
+						{
+							// check AC line
+							lineYcur = mAC*(curX-t.c.x)+t.c.y; // Y of line at current char
+							if ((curY - lineYcur) * (t.b.y - lineYatB) > 0) // check to see if sign is same
+							{
+								// don't draw if the char is behind something
+								// (this check is really slow for some reason, so I'm putting it last)
+								if(curDepth > depth[w][h])
+								{
+									frame[w][h] = t.fill;
+									depth[w][h] = curDepth;
+								}
+							}
+						}
+					}
+				}
+			}/**/
+			
+			/*// OLD DRAW FN
 			// init triRender and triDepth
 			char triRender [eng.resW][eng.resH];
 			double triDepth [eng.resW][eng.resH];
@@ -1645,8 +1710,11 @@ int main()
 						depth[w][h] = triDepth[w][h];
 					}
 				}
-			}	
+			}/**/
 		}
+		
+		// framecap (should change it to only apply when needed...)
+		Sleep(1000/eng.framerate);
 		
 		// print frame
 		system("cls");
@@ -1660,9 +1728,6 @@ int main()
 		}
 		cout << ss.str();
 				
-		// framecap (should change it to only apply when needed...)
-		Sleep(1000/eng.framerate);
-		
 		// frame timer
 		if (eng.frameTimer)
 		{
