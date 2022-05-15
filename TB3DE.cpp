@@ -7,6 +7,7 @@
 #include <vector>
 #include <fstream>
 #include <string>
+#include <time.h>
 using namespace std;
 
 const double INF = 9999999; // used to represent depth of empty space
@@ -48,6 +49,9 @@ struct engineSettings
 	// it's how long the engine waits between drawing frames
 	int framerate;
 	
+	// display how long the frame took
+	bool frameTimer;
+	
 	bool specialFill;
 };
 
@@ -69,13 +73,14 @@ struct tri
 int main()
 {
 	engineSettings eng;
+	clock_t frameStart, frameEnd;
 	
 	// default engine setings
 	eng.d = 2;
-	eng.fontW = 8;
-	eng.fontH = 16;
-	eng.resW = 120;
-	eng.resH = 30;
+	eng.fontW = 3;
+	eng.fontH = 5;
+	eng.resW = 300;
+	eng.resH = 150;
 	eng.windowH = 1;
 	eng.windowW = eng.windowH/(eng.resH*eng.fontH)*(eng.resW*eng.fontW);
 	
@@ -87,6 +92,7 @@ int main()
 	eng.persp = true;
 	eng.vertLabels = true;
 	eng.specialFill = false;
+	eng.frameTimer = true;
 	eng.framerate = 67;
 	
 	// init tri list
@@ -1653,7 +1659,17 @@ int main()
 			}
 		}
 		cout << ss.str();
+				
+		// framecap (should change it to only apply when needed...)
 		Sleep(1000/eng.framerate);
+		
+		// frame timer
+		if (eng.frameTimer)
+		{
+			frameEnd = clock();
+			cout << "\b\b\b\b\b\b" << frameEnd - frameStart << "ms";
+			frameStart = clock();
+		}
 	}
 	
 	return 0;
