@@ -1,5 +1,21 @@
 // heads up, this code is NOT pretty lol
 
+/*
+TODO:
+	implement ClearConsole() fn
+		it's faster than system("cls")
+		needs a sleep before it or screen will flicker?? like so:
+			Sleep(3);
+			ClearConsole();
+	fix up framecap/framerate
+	re-add vertex abc labels to new draw fn
+	add a proper 3x3 rotation matrix
+	maybe like, don't have all the models/scenes just hardcoded into main() lol
+	add some kb controls n stuff?
+	when the font size is small, some of the fonts are colored due to cleartext!!!
+		could be fun to map the colors out and add sudo color support
+*/
+
 #include <iostream>
 #include <cmath>
 #include <sstream>
@@ -70,6 +86,24 @@ struct tri
 	char fill;
 };
 
+static void ClearConsole(void)
+{
+    const HANDLE stdoutHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_SCREEN_BUFFER_INFO screenBufInfo;
+    if (!GetConsoleScreenBufferInfo(stdoutHandle, &screenBufInfo)) return;
+    const SMALL_RECT scrollRect =
+    {
+        0, 0,
+        screenBufInfo.dwSize.X,
+        screenBufInfo.dwSize.Y
+    };
+    const CHAR_INFO fill = {L' ', screenBufInfo.wAttributes};
+    const COORD destOrigin = {0, -screenBufInfo.dwSize.Y};
+    ScrollConsoleScreenBufferW(stdoutHandle, &scrollRect, NULL, destOrigin, &fill);
+    const COORD cursorPos = {0, 0};
+    SetConsoleCursorPosition(stdoutHandle, cursorPos);
+}
+
 int main()
 {
 	engineSettings eng;
@@ -77,10 +111,10 @@ int main()
 	
 	// default engine setings
 	eng.d = 2;
-	eng.fontW = 3;
-	eng.fontH = 5;
-	eng.resW = 300;
-	eng.resH = 150;
+	eng.fontW = 8;
+	eng.fontH = 16;
+	eng.resW = 120;
+	eng.resH = 30;
 	eng.windowH = 1;
 	eng.windowW = eng.windowH/(eng.resH*eng.fontH)*(eng.resW*eng.fontW);
 	
