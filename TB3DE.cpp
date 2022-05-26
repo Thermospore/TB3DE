@@ -2,6 +2,7 @@
 
 /*
 TODO:
+	port to playdate!?!?!?
 	implement ClearConsole() fn
 		it's faster than system("cls")
 		needs a sleep before it or screen will flicker?? like so:
