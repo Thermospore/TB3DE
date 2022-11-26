@@ -20,11 +20,17 @@ TODO:
 #include <iostream>
 #include <cmath>
 #include <sstream>
-#include <windows.h>
 #include <vector>
 #include <fstream>
 #include <string>
 #include <time.h>
+
+#ifdef _WIN32
+    #include <windows.h>
+#else
+    #include <unistd.h>
+#endif
+
 using namespace std;
 
 const double INF = 9999999; // used to represent depth of empty space
@@ -87,8 +93,11 @@ struct tri
 	char fill;
 };
 
+
+// ifdef windows to clear console 
 static void ClearConsole(void)
 {
+#ifdef _WIN32
     const HANDLE stdoutHandle = GetStdHandle(STD_OUTPUT_HANDLE);
     CONSOLE_SCREEN_BUFFER_INFO screenBufInfo;
     if (!GetConsoleScreenBufferInfo(stdoutHandle, &screenBufInfo)) return;
@@ -103,9 +112,14 @@ static void ClearConsole(void)
     ScrollConsoleScreenBufferW(stdoutHandle, &scrollRect, NULL, destOrigin, &fill);
     const COORD cursorPos = {0, 0};
     SetConsoleCursorPosition(stdoutHandle, cursorPos);
+#else
+    printf("\033[2J\033[1;1H");
+    /* printf("%b","\033c"); */
+#endif
 }
 
-int main()
+
+int main(int argc, char *argv[])
 {
 	engineSettings eng;
 	clock_t frameStart, frameEnd;
@@ -139,7 +153,11 @@ int main()
 	double maxY = -INF;
 	double minY = INF;
 	
-	ifstream objFile("objs/Queen Gohma.obj");
+    // argv[1] is the path to the obj file
+	/* ifstream objFile("objs/Queen Gohma.obj"); */
+    ifstream objFile(argv[1]);
+
+
 	string objLine;
 	while (getline (objFile, objLine)) // loop through each line
 	{
@@ -221,7 +239,6 @@ int main()
 		// use coords as seed for fill char
 		tris.at(i).fill = (tris.at(i).a.y+tris.at(i).a.z+.5)*50+40;
 	}
-	
 	
 	// loop for each frame
 	while(1<2)
@@ -515,14 +532,20 @@ int main()
 						depth[w][h] = triDepth[w][h];
 					}
 				}
-			}/**/
+			}
+            */
 		}
 		
 		// framecap (should change it to only apply when needed...)
+#ifdef _WIN32
 		Sleep(1000/eng.framerate);
+#else
+        usleep(1000000/eng.framerate);
+#endif
+        ClearConsole();
 		
 		// print frame
-		system("cls");
+
 		stringstream ss;
 		for(int h = eng.resH-1; h >= 0; h--)
 		{
