@@ -35,7 +35,7 @@ TODO:
 using namespace std;
 
 const double INF = 9999999; // used to represent depth of empty space
-const int FRAMECAP = 777;
+const int FRAMECAP = 2000;
 
 struct engineSettings
 {
@@ -116,9 +116,20 @@ static void ClearConsole(void)
     SetConsoleCursorPosition(stdoutHandle, cursorPos);
 #else
     printf("\033[2J\033[1;1H");
+    // set cursor to top left
+    printf("\033[0;0H");
     /* printf("%b","\033c"); */
 #endif
 }
+
+// ctrl c to show cursor and quit
+void sigintHandler(int sig_num)
+{
+    ClearConsole();
+    cout << "\033[?25h";
+    exit(0);
+}
+
 
 
 int main(int argc, char *argv[])
@@ -136,8 +147,7 @@ int main(int argc, char *argv[])
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
     eng.resW = w.ws_col;
     eng.resH = w.ws_row;
-	/* eng.resW = 248; */
-	/* eng.resH = 76; */
+
 	eng.windowH = 1;
 	eng.windowW = eng.windowH/(eng.resH*eng.fontH)*(eng.resW*eng.fontW);
 	
@@ -148,9 +158,9 @@ int main(int argc, char *argv[])
 	
 	eng.persp = true;
 	eng.vertLabels = true;
-	eng.specialFill = false;
+	eng.specialFill = true;
 	eng.frameTimer = true;
-	eng.framerate = 48;
+	eng.framerate = 66;
 	
 	// init tri list
 	vector<tri> tris;
@@ -262,9 +272,15 @@ int main(int argc, char *argv[])
         }
         */
 	}
+    // hide cursor
+    printf("\e[?25l");
 	// loop for each frame
 	while(1<2)
 	{
+
+        // on ctrl-c, show cursor and exit
+        signal(SIGINT, sigintHandler);
+
 		// init frame and depth buffer
 		char frame [eng.resW][eng.resH];
 		double depth [eng.resW][eng.resH];
@@ -425,7 +441,8 @@ int main(int argc, char *argv[])
 						}
 					}
 				}
-			}/**/
+			}
+        }
 			
 		// framecap (should change it to only apply when needed...)
 #ifdef _WIN32
