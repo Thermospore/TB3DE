@@ -28,12 +28,14 @@ TODO:
 #ifdef _WIN32
     #include <windows.h>
 #else
+    #include <sys/ioctl.h>
     #include <unistd.h>
 #endif
 
 using namespace std;
 
 const double INF = 9999999; // used to represent depth of empty space
+const int FRAMECAP = 777;
 
 struct engineSettings
 {
@@ -128,8 +130,14 @@ int main(int argc, char *argv[])
 	eng.d = 2;
 	eng.fontW = 8;
 	eng.fontH = 16;
-	eng.resW = 120;
-	eng.resH = 30;
+
+    // get terminal console width and height
+    struct winsize w;
+    ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+    eng.resW = w.ws_col;
+    eng.resH = w.ws_row;
+	/* eng.resW = 248; */
+	/* eng.resH = 76; */
 	eng.windowH = 1;
 	eng.windowW = eng.windowH/(eng.resH*eng.fontH)*(eng.resW*eng.fontW);
 	
@@ -142,7 +150,7 @@ int main(int argc, char *argv[])
 	eng.vertLabels = true;
 	eng.specialFill = false;
 	eng.frameTimer = true;
-	eng.framerate = 67;
+	eng.framerate = 48;
 	
 	// init tri list
 	vector<tri> tris;
@@ -237,9 +245,23 @@ int main(int argc, char *argv[])
 		tris.at(i).c.z *= scale;
 		
 		// use coords as seed for fill char
-		tris.at(i).fill = (tris.at(i).a.y+tris.at(i).a.z+.5)*50+40;
+        double seed = (tris.at(i).a.y+tris.at(i).a.z+.5)*50+40;
+        tris.at(i).fill = ((char)seed) % 95 + 32;
+
+        /*
+        // look for special fill chars and count them
+        // keep track in this vector
+        vector<char> specialFillChars;
+
+        if (tris.at(i).fill < 32 || tris.at(i).fill > 126) {
+            // add to vector if not already there
+            if (find(specialFillChars.begin(), specialFillChars.end(), tris.at(i).fill) == specialFillChars.end()) {
+                specialFillChars.push_back(tris.at(i).fill);
+                printf("%d\n", tris.at(i).fill);
+            }
+        }
+        */
 	}
-	
 	// loop for each frame
 	while(1<2)
 	{
@@ -538,13 +560,16 @@ int main(int argc, char *argv[])
 		
 		// framecap (should change it to only apply when needed...)
 #ifdef _WIN32
-		Sleep(1000/eng.framerate);
+		Sleep(FRAMECAP/eng.framerate);
 #else
-        usleep(1000000/eng.framerate);
+        usleep(FRAMECAP*1000/eng.framerate);
 #endif
         ClearConsole();
 		
 		// print frame
+        ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+        eng.resW = w.ws_col;
+        eng.resH = w.ws_row;
 
 		stringstream ss;
 		for(int h = eng.resH-1; h >= 0; h--)
